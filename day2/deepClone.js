@@ -49,9 +49,12 @@ function deepClone(value, cache = new WeakMap()) {
   cache.set(value, cloned);
 
   // 递归拷贝所有属性
-  Object.keys(value).forEach((key) => {
-    cloned[key] = deepClone(value[key], cache);
-  });
+  Object.keys(
+    value
+  ) /**这里其实对数组同样生效，但是这里可能会跳过数组中原本存在的空位 */
+    .forEach((key) => {
+      cloned[key] = deepClone(value[key], cache);
+    }); //
   // 处理symbol属性
   Object.getOwnPropertySymbols(value).forEach((symbol) => {
     cloned[symbol] = deepClone(value[symbol], cache);
